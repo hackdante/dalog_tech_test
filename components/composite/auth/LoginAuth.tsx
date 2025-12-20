@@ -1,52 +1,81 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ButtonDefault, CardDefault, InputDefault  } from '@/components/base';
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ButtonDefault, CardDefault, InputDefault } from "@/components/base";
+import { authService } from "@/services";
+import { useAuth } from "@/context";
 
 export function LoginAuth() {
-  const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+
+  const { login } = useAuth();
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    setTimeout(() => {
-      if (user === 'admin' && password === 'dalog2025') {
-        router.push('/dashboard');
-      } else {
-        alert('Credenciales incorrectas (admin/dalog2025)');
-        setIsLoading(false);
-      }
-    }, 1000);
-  };
+const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
+  try {
+    const userData = await authService(email, password);
+    
+    // 1. Primero guardamos la sesión
+    login(userData); 
+    
+    console.log("Redirigiendo...");
+    
+    // 2. Ejecutamos la redirección
+    router.push('/dashboard');
+    
+  } catch (err: any) {
+    alert(err.message);
+  } finally {
+    // Nota: Si rediriges con éxito, a veces es mejor no apagar el loading 
+    // para evitar que el botón vuelva a su estado original antes de cambiar de página.
+  }
+};
 
   return (
     <CardDefault className="w-full max-w-md">
-      <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">DALOG Manager</h1>
+      <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        DALOG Manager
+      </h1>
+
       <form onSubmit={handleLogin} className="space-y-4">
-        <InputDefault 
-          label="Usuario"
-          type="text"
+        <InputDefault
+          label="Email Institucional"
+          type="email"
           required
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="ejemplo@dalog.com"
         />
-        <InputDefault 
+        <InputDefault
           label="Contraseña"
           type="password"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {/* 5. Feedback visual de error */}
+        {error && (
+          <p className="text-red-500 text-sm font-medium animate-pulse">
+            {error}
+          </p>
+        )}
+
         <ButtonDefault type="submit" isLoading={isLoading}>
-          Ingresar
+          {isLoading ? "Autenticando..." : "Ingresar"}
         </ButtonDefault>
       </form>
+
+      <p className="mt-4 text-xs text-center text-gray-400">
+        Usa cualquier email de técnico y la clave DALOG
+      </p>
     </CardDefault>
   );
 }
