@@ -1,36 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DALOG Diagnostic Report Manager (v.0.0.4)
 
-## Getting Started
+This is an enterprise-grade dashboard for managing technical diagnostic reports, built with **Next.js 15 (App Router)**, **TypeScript**, and **Tailwind CSS**, optimized for seamless deployment on **Vercel**. The project follows a modular **Atomic Design** architecture, organizing base components (Atoms) in `src/components/base` and complex organisms in `src/components/auth`, ensuring high reusability and clean code separation. Currently, the system features a professional **Authentication Flow** with simulated credential validation and realistic latency handling. To maintain high engineering standards, the repository implements **Conventional Commits** for traceable versioning and clear change history. The project is designed for high performance, utilizing **Next.js Server Components** and optimized client-side state management to ensure a fast and accessible user experience.
 
-First, run the development server:
+## 🛠️ Tech Stack & Standards
+- **Framework**: Next.js 15 + React 19 (React Compiler enabled).
+- **Styling**: Tailwind CSS for consistent UI/UX.
+- **Versioning**: Conventional Commits standard (`type(scope): description v.x.x.x`).
+- **Deployment**: Optimized for Vercel (Edge-ready).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Getting Started
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone and Install:**
+   ```bash
+   git clone https://github.com/hackdante/dalog_tech_test.git
+   pnpm install
