@@ -1,11 +1,12 @@
-'use client'
+'use client';
 
 import { createContext } from 'react';
-import { ReportStateUI } from '@/interfaces';
-
+import { ReportStateUI, ReportStatusType } from '@/interfaces';
 export interface ReportContextUI extends ReportStateUI {
   handleSearch: (query: string) => Promise<void>;
-  loadReports: () => Promise<void>;
+  handlePageChange: (page: number) => Promise<void>;
+  loadReports: (page?: number, query?: string) => Promise<void>;
+  status: ReportStatusType;
 }
 
 export const ReportContext = createContext<ReportContextUI | undefined>(undefined);

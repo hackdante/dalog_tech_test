@@ -1,5 +1,4 @@
 export type ReportType = "Vibration" | "Thermal" | "Other";
-export type ReportStatusType = "idle" | "loading" | "success" | "error"; 
 
 export interface ReportUI {
   id: number;
@@ -8,10 +7,25 @@ export interface ReportUI {
   type: ReportType;
   date: string;
 }
+
+export type ReportStatusType = "idle" | "loading" | "success" | "error";
+
+export interface PaginationMetadataUI {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  limit: number;
+}
+
+export interface PaginatedResponseUI {
+  data: ReportUI[];
+  meta: PaginationMetadataUI;
+}
+
 export interface ReportStateUI {
-  reports: ReportUI[];
   filteredReports: ReportUI[];
-  status: ReportStatusType;
+  status: ReportStatusType; 
   searchTerm: string;
   error: string | null;
+  pagination: PaginationMetadataUI;
 }

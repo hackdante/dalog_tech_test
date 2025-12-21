@@ -1,53 +1,73 @@
-'use client';
+"use client";
 
-import React, { useState, useCallback, ReactNode } from 'react';
-import { ReportContext } from './ReportContext';
-import { ReportUI, ReportStatusType } from '@/interfaces';
-import { reportService } from '@/services';
+import { useState, useCallback, ReactNode } from "react";
+import { ReportContext } from "./ReportContext";
+import { ReportUI, ReportStatusType, PaginationMetadataUI } from "@/interfaces";
+import { reportService } from "@/services";
+
+const INITIAL_PAGINATION: PaginationMetadataUI = {
+  totalItems: 0,
+  totalPages: 0,
+  currentPage: 1,
+  limit: 6,
+};
 
 export const ReportProvider = ({ children }: { children: ReactNode }) => {
-  const [reports, setReports] = useState<ReportUI[]>([]);
   const [filteredReports, setFilteredReports] = useState<ReportUI[]>([]);
-  const [status, setStatus] = useState<ReportStatusType>('idle');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [status, setStatus] = useState<ReportStatusType>("idle");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [pagination, setPagination] =
+    useState<PaginationMetadataUI>(INITIAL_PAGINATION);
   const [error, setError] = useState<string | null>(null);
 
-  const loadReports = useCallback(async () => {
-    setStatus('loading');
-    try {
-      const data = await reportService.fetchReports();
-      setReports(data);
-      setFilteredReports(data);
-      setStatus('success');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-      setStatus('error');
-    }
-  }, []);
+  const loadReports = useCallback(
+    async (page: number = 1, query: string = "") => {
+      setStatus("loading");
+      try {
+        const response = await reportService.fetchReports(
+          query,
+          page,
+          INITIAL_PAGINATION.limit
+        );
+        setFilteredReports(response.data);
+        setPagination(response.meta);
+        setStatus("success");
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Error syncing data");
+        setStatus("error");
+      }
+    },
+    []
+  );
 
-  const handleSearch = useCallback(async (query: string) => {
-    setSearchTerm(query);
-    setStatus('loading');
-    try {
-      const filtered = await reportService.fetchReports(query);
-      setFilteredReports(filtered);
-      setStatus('success');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Search failed');
-      setStatus('error');
-    }
-  }, []);
+  const handleSearch = useCallback(
+    async (query: string) => {
+      setSearchTerm(query);
+      await loadReports(1, query);
+    },
+    [loadReports]
+  );
+
+  const handlePageChange = useCallback(
+    async (page: number) => {
+      await loadReports(page, searchTerm);
+    },
+    [loadReports, searchTerm]
+  );
 
   return (
-    <ReportContext.Provider value={{ 
-      reports, 
-      filteredReports, 
-      status, 
-      searchTerm, 
-      error, 
-      handleSearch, 
-      loadReports 
-    }}>
+    <ReportContext.Provider
+      value={{
+        filteredReports,
+        status,
+        searchTerm,
+        pagination,
+        error,
+        handleSearch,
+        handlePageChange,
+        loadReports,
+      }}
+    >
       {children}
     </ReportContext.Provider>
   );
