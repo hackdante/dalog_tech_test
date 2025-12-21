@@ -2,73 +2,76 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ButtonDefault, CardDefault, InputDefault } from "@/components/base";
+import {
+  ButtonDefault,
+  CardDefault,
+  InputDefault,
+  LogoCompany,
+} from "@/components/base";
 import { authService } from "@/services";
-import { useAuth } from "@/hooks";
+import { useAuth, useUI } from "@/hooks"; // Importamos useUI
 
 export function LoginAuth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const { login } = useAuth();
+  const { notify } = useUI(); // <--- Hook global de notificaciones
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
     try {
       const userData = await authService(email, password);
-
       login(userData);
-
-      console.log("Redirigiendo...");
-
+      
+      notify("Welcome to DALOG Manager", "success");
+      
       router.push("/dashboard");
     } catch (err: any) {
-      alert(err.message);
+      notify(err.message || "Authentication failed", "error");
     } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <CardDefault className="w-full max-w-md">
-      <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
-        DALOG Manager
-      </h1>
+    <main className="min-h-screen flex items-center justify-center bg-blue-600 p-4">
+      <CardDefault className="w-full max-w-md shadow-2xl">
+        {/* Centrado del Logo */}
+        <div className="flex flex-col items-center mb-8">
+          <LogoCompany description={"Monitoring experts"} theme={"theme/light"} />
+        </div>
 
-      <form onSubmit={handleLogin} className="space-y-4">
-        <InputDefault
-          label="Email Institucional"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="ejemplo@dalog.com"
-        />
-        <InputDefault
-          label="Contraseña"
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <form onSubmit={handleLogin} className="space-y-4">
+          <InputDefault
+            label="Email Institucional"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="ejemplo@dalog.com"
+          />
+          <InputDefault
+            label="Contraseña"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        {error && (
-          <p className="text-red-500 text-sm font-medium animate-pulse">
-            {error}
-          </p>
-        )}
+          <ButtonDefault type="submit" isLoading={isLoading} className="w-full">
+            {isLoading ? "Authenticating..." : "Log in"}
+          </ButtonDefault>
+        </form>
 
-        <ButtonDefault type="submit" isLoading={isLoading}>
-          {isLoading ? "Autenticando..." : "Ingresar"}
-        </ButtonDefault>
-      </form>
-
-      <p className="mt-4 text-xs text-center text-gray-400">
-        Usa cualquier email de técnico y la clave DALOG
-      </p>
-    </CardDefault>
+        <p className="mt-6 text-[10px] text-center text-gray-400 uppercase font-bold tracking-widest">
+          Use any technician email and the DALOG key.
+        </p>
+      </CardDefault>
+    </main>
   );
 }

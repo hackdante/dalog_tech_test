@@ -92,7 +92,15 @@ dalog-tech-test/
 - `pnpm start`: Starts the production server (after build).
 - `pnpm lint`: Runs ESLint to check code.
 
-## 🧪 Testing
+## 👤 Test Users
+
+To access the application, use the following test credentials:
+
+- **Admin**: Email: `admin@dalog.com`, Password: `admin123`, Role: Admin
+- **Operator**: Email: `operator@dalog.com`, Password: `operator123`, Role: Operator
+- **Guest**: Email: `guest@dalog.com`, Password: `guest123`, Role: Guest
+
+These users simulate different access levels for testing authentication and role-based features.
 Currently, no test suite is configured. As a senior developer, I recommend integrating:
 - **Jest** + **React Testing Library** for component unit tests.
 - **Cypress** or **Playwright** for end-to-end testing.

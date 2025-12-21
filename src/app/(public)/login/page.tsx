@@ -2,7 +2,7 @@ import { LoginAuth } from '@/components/composite';
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black font-sans">
+    <div className="min-h-screen w-full bg-blue-600 dark:bg-blue-700">
       <LoginAuth />
     </div>
   );

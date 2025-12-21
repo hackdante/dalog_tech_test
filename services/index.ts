@@ -1,2 +1,2 @@
-export * from '@/services/auth/authService'
-export * from '@/services/reports/reportServices'
+export * from "@/services/auth";
+export * from "@/services/reports";

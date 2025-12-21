@@ -12,5 +12,5 @@ export const authService = async (email: string, password: string): Promise<User
     return user; 
   }
 
-  throw new Error("El correo o la contraseña son incorrectos.");
+  throw new Error("The email address or password is incorrect.");
 };

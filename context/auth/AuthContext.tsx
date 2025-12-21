@@ -1,5 +1,4 @@
-'use client';
-
+"use client"
 import { createContext } from 'react';
 import { AuthContextTypeUI } from './interface';
 

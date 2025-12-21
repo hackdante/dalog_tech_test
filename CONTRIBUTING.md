@@ -1,75 +1,75 @@
-# Guía de Contribución
+# Contributing Guide
 
-Bienvenido a la contribución del proyecto **DALOG Diagnostic Report Manager**. Esta guía establece estándares y procesos para mantener la calidad del código, fomentar colaboraciones efectivas y asegurar que el proyecto evolucione de manera sostenible. Como prueba técnica, el enfoque está en mejores prácticas de desarrollo frontend.
+Welcome to contributing to the **DALOG Diagnostic Report Manager** project. This guide establishes standards and processes to maintain code quality, foster effective collaborations, and ensure the project evolves sustainably. As a technical test, the focus is on frontend development best practices.
 
-## 📋 Requisitos Previos
-- Familiaridad con **Next.js**, **TypeScript**, **Tailwind CSS** y **React**.
-- Conocimiento de **Atomic Design** y patrones de componentes.
-- Uso de **pnpm** como gestor de paquetes.
-- Entendimiento de **Conventional Commits**.
+## 📋 Prerequisites
+- Familiarity with **Next.js**, **TypeScript**, **Tailwind CSS**, and **React**.
+- Knowledge of **Atomic Design** and component patterns.
+- Use of **pnpm** as package manager.
+- Understanding of **Conventional Commits**.
 
-## 🚀 Setup de Desarrollo
-1. **Clona y configura** (ver [README.md](README.md) para detalles).
-2. **Instala dependencias**: `pnpm install`.
-3. **Ejecuta linting**: `pnpm lint` antes de commits.
-4. **Prueba cambios**: Ejecuta `pnpm dev` y verifica en navegador.
+## 🚀 Development Setup
+1. **Clone and configure** (see [README.md](README.md) for details).
+2. **Install dependencies**: `pnpm install`.
+3. **Run linting**: `pnpm lint` before commits.
+4. **Test changes**: Run `pnpm dev` and verify in browser.
 
-## 🌿 Estrategia de Branching
-- **main**: Rama de producción, solo merges de `develop` vía PR.
-- **develop**: Rama de desarrollo, integra features completas.
-- **feature/**: Ramas para nuevas funcionalidades (ej. `feature/add-pagination`).
-- **fix/**: Ramas para correcciones (ej. `fix/auth-validation`).
-- **hotfix/**: Para parches urgentes en producción.
+## 🌿 Branching Strategy
+- **main**: Production branch, only merges from `develop` via PR.
+- **develop**: Development branch, integrates complete features.
+- **feature/**: Branches for new functionalities (e.g., `feature/add-pagination`).
+- **fix/**: Branches for fixes (e.g., `fix/auth-validation`).
+- **hotfix/**: For urgent patches in production.
 
-### Flujo de Trabajo
-1. Crea una rama desde `develop`: `git checkout -b feature/nueva-funcionalidad`.
-2. Desarrolla y commitea siguiendo Conventional Commits.
-3. Push y crea un Pull Request (PR) hacia `develop`.
-4. Espera revisión y aprobación antes de merge.
+### Workflow
+1. Create a branch from `develop`: `git checkout -b feature/new-functionality`.
+2. Develop and commit following Conventional Commits.
+3. Push and create a Pull Request (PR) towards `develop`.
+4. Wait for review and approval before merge.
 
-## 📝 Estándares de Código
-- **TypeScript**: Usa tipos estrictos, evita `any`.
-- **Componentes**: Sigue Atomic Design; exporta desde `index.ts` en cada carpeta.
-- **Estilos**: Usa clases de Tailwind; evita estilos inline.
-- **Nombres**: PascalCase para componentes, camelCase para hooks/variables.
-- **Linting**: Ejecuta `pnpm lint` y corrige errores antes de commit.
-- **Accesibilidad**: Implementa ARIA labels y navegación por teclado.
+## 📝 Code Standards
+- **TypeScript**: Use strict types, avoid `any`.
+- **Components**: Follow Atomic Design; export from `index.ts` in each folder.
+- **Styles**: Use Tailwind classes; avoid inline styles.
+- **Naming**: PascalCase for components, camelCase for hooks/variables.
+- **Linting**: Run `pnpm lint` and fix errors before commit.
+- **Accessibility**: Implement ARIA labels and keyboard navigation.
 
 ## 🧪 Testing
-- Agrega tests para nuevas funcionalidades (unit tests con Jest + RTL).
-- Ejecuta tests antes de PR: `pnpm test` (configurar si no existe).
-- Cubre casos edge: errores de red, estados de carga, validaciones.
+- Add tests for new functionalities (unit tests with Jest + RTL).
+- Run tests before PR: `pnpm test` (configure if not exists).
+- Cover edge cases: network errors, loading states, validations.
 
 ## 🔄 Pull Requests (PRs)
-- **Título**: Sigue Conventional Commits (ej. `feat(ui): add search component`).
-- **Descripción**: Explica cambios, impacto y cómo probar.
+- **Title**: Follow Conventional Commits (e.g., `feat(ui): add search component`).
+- **Description**: Explain changes, impact, and how to test.
 - **Checklist**:
-  - [ ] Código linted sin errores.
-  - [ ] Tests pasan (si aplican).
-  - [ ] Funcionalidad probada manualmente.
-  - [ ] Documentación actualizada (si cambia API).
-- **Revisión**: Al menos 1 aprobador senior antes de merge.
+  - [ ] Code linted without errors.
+  - [ ] Tests pass (if applicable).
+  - [ ] Functionality tested manually.
+  - [ ] Documentation updated (if API changes).
+- **Review**: At least 1 senior approver before merge.
 
-## 📚 Documentación
-- Actualiza [README.md](README.md) para cambios significativos.
-- Documenta componentes nuevos en comentarios JSDoc.
-- Mantén `interfaces/` actualizadas con nuevos tipos.
+## 📚 Documentation
+- Update [README.md](README.md) for significant changes.
+- Document new components in JSDoc comments.
+- Keep `interfaces/` updated with new types.
 
-## 🐛 Reporte de Issues
-- Usa GitHub Issues para bugs o mejoras.
-- Incluye: pasos para reproducir, entorno (OS, browser), screenshots/logs.
+## 🐛 Issue Reporting
+- Use GitHub Issues for bugs or improvements.
+- Include: reproduction steps, environment (OS, browser), screenshots/logs.
 
-## 📞 Comunicación
-- Usa commits descriptivos y PRs claros.
-- Para discusiones grandes, crea issues o usa comentarios en PR.
+## 📞 Communication
+- Use descriptive commits and clear PRs.
+- For large discussions, create issues or use PR comments.
 
-## 🏆 Mejores Prácticas
-- Commits pequeños y frecuentes.
-- Evita cambios masivos; divide en PRs pequeñas.
-- Revisa tu propio código antes de pedir review.
-- Mantén el proyecto modular y escalable.
+## 🏆 Best Practices
+- Small and frequent commits.
+- Avoid massive changes; split into small PRs.
+- Review your own code before requesting review.
+- Keep the project modular and scalable.
 
-¡Gracias por contribuir! Tu trabajo ayuda a construir un producto robusto.
+Thank you for contributing! Your work helps build a robust product.
 
 ---
 

@@ -5,21 +5,22 @@ import { UserUI } from "@/interfaces/auth/UserUI";
 import { AuthContext } from './AuthContext';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<UserUI | null>(null);
+  // Cambiamos a 'user' para que coincida con la interfaz del Contexto
+  const [user, setUser] = useState<UserUI | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    if (currentUser?.theme) {
+    if (user?.theme) {
       document.documentElement.classList.remove('light', 'dark');
-      document.documentElement.classList.add(currentUser.theme);
+      document.documentElement.classList.add(user.theme);
     }
-  }, [currentUser?.theme]);
+  }, [user?.theme]);
 
   useEffect(() => {
     const savedSession = sessionStorage.getItem('dalog_session');
     if (savedSession) {
       try {
-        setCurrentUser(JSON.parse(savedSession));
+        setUser(JSON.parse(savedSession));
       } catch (error) {
         sessionStorage.removeItem('dalog_session');
       }
@@ -27,18 +28,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsHydrated(true);
   }, []);
 
-  const login = useCallback((user: UserUI) => {
-    setCurrentUser(user);
-    sessionStorage.setItem('dalog_session', JSON.stringify(user));
+  const login = useCallback((userData: UserUI) => {
+    setUser(userData);
+    sessionStorage.setItem('dalog_session', JSON.stringify(userData));
   }, []);
 
   const logout = useCallback(() => {
-    setCurrentUser(null);
+    setUser(null);
     sessionStorage.removeItem('dalog_session');
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout, isHydrated }}>
+    <AuthContext.Provider value={{ 
+      user,               // Usamos 'user'
+      isAuthenticated: !!user, // Helper booleano
+      login, 
+      logout, 
+      isHydrated 
+    }}>
       {children}
     </AuthContext.Provider>
   );
