@@ -3,6 +3,7 @@
 import React from 'react';
 import { DashboardSearch, ReportList } from "@/components/composite";
 import { Activity, ShieldCheck, Zap } from "lucide-react";
+import { ReportProvider } from '@/context';
 
 export default function DashboardPage() {
   const stats = [
@@ -12,6 +13,7 @@ export default function DashboardPage() {
   ];
 
   return (
+    <ReportProvider>
     <div className="space-y-8 max-w-7xl mx-auto animate-in fade-in duration-700">
 
       <header className="flex flex-col gap-1">
@@ -45,5 +47,6 @@ export default function DashboardPage() {
         <ReportList />
       </section>
     </div>
+    </ReportProvider>
   );
 }

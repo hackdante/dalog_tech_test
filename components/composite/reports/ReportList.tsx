@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FileText,
   Activity,
@@ -8,13 +8,18 @@ import {
   Download,
   LayoutGrid,
   List,
-
 } from "lucide-react";
-import { INITIAL_REPORTS } from "@/mocks";
+import { useReports } from "@/hooks";
 import { ReportUI } from "@/interfaces";
+import { SpinnerDefault } from "@/components/base";
 
 export function ReportList() {
+  const { filteredReports, status, loadReports } = useReports();
   const [viewMode, setViewMode] = useState<"grid" | "details">("grid");
+
+  useEffect(() => {
+    loadReports();
+  }, [loadReports]);
 
   const getTypeConfig = (type: ReportUI["type"]) => {
     switch (type) {
@@ -39,11 +44,19 @@ export function ReportList() {
     }
   };
 
+  if (status === "loading") {
+    return (
+      <div className="w-full h-96 flex flex-col items-center justify-center animate-in fade-in duration-500">
+        <SpinnerDefault size="lg" label="Synchronizing diagnostics…." />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full space-y-6">
       <div className="flex justify-between items-center px-2">
         <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">
-          Diagnostic Archives ({INITIAL_REPORTS.length})
+          Diagnostic Archives ({filteredReports.length})
         </h3>
         <div className="flex bg-zinc-100 dark:bg-zinc-800 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700">
           <button
@@ -69,9 +82,15 @@ export function ReportList() {
         </div>
       </div>
 
-      {viewMode === "grid" ? (
+      {filteredReports.length === 0 ? (
+        <div className="text-center py-20 border-2 border-dashed border-zinc-100 dark:border-zinc-800 rounded-3xl">
+          <p className="text-zinc-400 text-sm font-bold">
+            No diagnostic reports found.
+          </p>
+        </div>
+      ) : viewMode === "grid" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {INITIAL_REPORTS.map((report) => {
+          {filteredReports.map((report) => {
             const config = getTypeConfig(report.type);
             return (
               <div
@@ -121,7 +140,7 @@ export function ReportList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
-              {INITIAL_REPORTS.map((report) => (
+              {filteredReports.map((report) => (
                 <tr
                   key={report.id}
                   className="group hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors"

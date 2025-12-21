@@ -2,8 +2,15 @@
 
 import { InputDefault } from '@/components/base';
 import { Search, Filter } from 'lucide-react'; 
+import { useReports } from '@/hooks';
 
 export const DashboardSearch = () => {
+  const { searchTerm, handleSearch } = useReports();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSearch(e.target.value);
+  };
+
   return (
     <div className="flex flex-col md:flex-row gap-4 w-full items-center">
       <div className="w-full flex-1">
@@ -11,6 +18,8 @@ export const DashboardSearch = () => {
           placeholder="Search by asset ID, diagnostic or date..."
           icon={<Search size={18} />}
           className="shadow-sm"
+          value={searchTerm}
+          onChange={handleChange}
         />
       </div>
       
