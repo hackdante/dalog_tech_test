@@ -29,7 +29,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* 2. Envolvemos el children para que Login y Dashboard compartan la sesión */}
         <AuthProvider>
           {children}
         </AuthProvider>

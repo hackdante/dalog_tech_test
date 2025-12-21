@@ -1,9 +1,5 @@
-import { LoginAuth } from '@/components/composite';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black font-sans">
-      <LoginAuth />
-    </div>
-  );
+export default function RootPage() {
+  redirect('/login');
 }

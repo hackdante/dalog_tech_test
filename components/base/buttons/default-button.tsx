@@ -1,21 +1,44 @@
+'use client';
+
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+// Aplicando Convención #6: PascalCase + UI suffix
+interface ButtonDefaultUI extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   isLoading?: boolean;
+  variant?: 'primary' | 'secondary' | 'ghost';
 }
 
-export const ButtonDefault = ({ children, isLoading, className = '', ...props }: ButtonProps) => {
+export const ButtonDefault = ({ 
+  children, 
+  isLoading, 
+  variant = 'primary',
+  className = '', 
+  ...props 
+}: ButtonDefaultUI) => {
+  const baseStyles = "relative px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed";
+  
+  const variants = {
+    primary: "bg-blue-600 text-white shadow-[0_4px_12px_rgba(37,99,235,0.2)] hover:shadow-[0_8px_20px_rgba(37,99,235,0.3)] hover:bg-blue-700",
+    secondary: "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-700",
+    ghost: "bg-transparent text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800"
+  };
+
   return (
     <button
       {...props}
-      className={`w-full py-2 px-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 
-      transition-colors disabled:bg-gray-400 flex justify-center items-center ${className}`}
+      disabled={isLoading || props.disabled}
+      className={`${baseStyles} ${variants[variant]} ${className}`}
     >
-      {isLoading ? (
-        <span className="animate-spin mr-2 border-2 border-white border-t-transparent rounded-full h-4 w-4" />
-      ) : null}
-      {children}
+
+      <span className={`flex items-center gap-2 transition-opacity duration-200 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+        {children}
+      </span>
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="h-5 w-5 animate-spin border-[3px] border-current border-t-transparent rounded-full" />
+        </div>
+      )}
     </button>
   );
 };

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ButtonDefault, CardDefault, InputDefault } from "@/components/base";
 import { authService } from "@/services";
-import { useAuth } from "@/context";
+import { useAuth } from "@/hooks";
 
 export function LoginAuth() {
   const [email, setEmail] = useState("");
@@ -12,31 +12,25 @@ export function LoginAuth() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
   const { login } = useAuth();
   const router = useRouter();
 
-const handleLogin = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsLoading(true);
-  try {
-    const userData = await authService(email, password);
-    
-    // 1. Primero guardamos la sesión
-    login(userData); 
-    
-    console.log("Redirigiendo...");
-    
-    // 2. Ejecutamos la redirección
-    router.push('/dashboard');
-    
-  } catch (err: any) {
-    alert(err.message);
-  } finally {
-    // Nota: Si rediriges con éxito, a veces es mejor no apagar el loading 
-    // para evitar que el botón vuelva a su estado original antes de cambiar de página.
-  }
-};
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const userData = await authService(email, password);
+
+      login(userData);
+
+      console.log("Redirigiendo...");
+
+      router.push("/dashboard");
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+    }
+  };
 
   return (
     <CardDefault className="w-full max-w-md">
@@ -61,7 +55,6 @@ const handleLogin = async (e: React.FormEvent) => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {/* 5. Feedback visual de error */}
         {error && (
           <p className="text-red-500 text-sm font-medium animate-pulse">
             {error}
