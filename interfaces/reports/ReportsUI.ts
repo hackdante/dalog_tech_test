@@ -35,6 +35,4 @@ export interface ReportContextUI extends ReportStateUI {
   handlePageChange: (page: number) => Promise<void>;
   loadReports: (page?: number, query?: string) => Promise<void>;
   addReport: (report: ReportUI) => void;
-  status: ReportStatusType;
 }
-

@@ -16,8 +16,7 @@ export const ReportProvider = ({ children }: { children: ReactNode }) => {
   const [filteredReports, setFilteredReports] = useState<ReportUI[]>([]);
   const [status, setStatus] = useState<ReportStatusType>("idle");
   const [searchTerm, setSearchTerm] = useState("");
-  const [pagination, setPagination] =
-    useState<PaginationMetadataUI>(INITIAL_PAGINATION);
+  const [pagination, setPagination] = useState<PaginationMetadataUI>(INITIAL_PAGINATION);
   const [error, setError] = useState<string | null>(null);
 
   const loadReports = useCallback(
@@ -39,6 +38,18 @@ export const ReportProvider = ({ children }: { children: ReactNode }) => {
     },
     []
   );
+
+  const addReport = useCallback((newReport: ReportUI) => {
+    setFilteredReports((prev) => [newReport, ...prev]);
+    setPagination((prev) => {
+      const newTotalItems = prev.totalItems + 1;
+      return {
+        ...prev,
+        totalItems: newTotalItems,
+        totalPages: Math.ceil(newTotalItems / prev.limit),
+      };
+    });
+  }, []);
 
   const handleSearch = useCallback(
     async (query: string) => {
@@ -66,6 +77,7 @@ export const ReportProvider = ({ children }: { children: ReactNode }) => {
         handleSearch,
         handlePageChange,
         loadReports,
+        addReport, 
       }}
     >
       {children}
