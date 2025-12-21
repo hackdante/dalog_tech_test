@@ -1,0 +1,1 @@
+export * from "@/components/composite/dialogs/dialog-upload/DialogUpload"

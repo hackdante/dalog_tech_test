@@ -1,7 +1,7 @@
 export type ReportType = "Vibration" | "Thermal" | "Other";
 
 export interface ReportUI {
-  id: number;
+  id: string;
   name: string;
   size: string;
   type: ReportType;
@@ -29,3 +29,12 @@ export interface ReportStateUI {
   error: string | null;
   pagination: PaginationMetadataUI;
 }
+
+export interface ReportContextUI extends ReportStateUI {
+  handleSearch: (query: string) => Promise<void>;
+  handlePageChange: (page: number) => Promise<void>;
+  loadReports: (page?: number, query?: string) => Promise<void>;
+  addReport: (report: ReportUI) => void;
+  status: ReportStatusType;
+}
+

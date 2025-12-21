@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   FileText,
   Activity,
@@ -8,16 +8,43 @@ import {
   Download,
   LayoutGrid,
   List,
+  Plus,
 } from "lucide-react";
 import { useReports, useUI } from "@/hooks";
 import { ReportUI } from "@/interfaces";
-import { SpinnerDefault, PaginationDefault } from "@/components/base";
+import { SpinnerDefault, PaginationDefault, ButtonDefault } from "@/components/base";
+import { DialogUpload } from '@/components/composite';
+
+
+const mapFileToReport = (file: File): ReportUI => {
+  const extension = file.name.split('.').pop()?.toLowerCase();
+  let type: ReportUI["type"] = "Other";
+  
+  if (extension === 'csv') type = "Vibration";
+  if (extension === 'pdf') type = "Thermal";
+
+  return {
+    id: crypto.randomUUID(),
+    name: file.name,
+    size: `${(file.size / 1024).toFixed(1)} KB`,
+    type,
+    date: new Date().toISOString(),
+  };
+};
 
 export function ReportList() {
   const { notify } = useUI();
-  const { filteredReports, status, loadReports, pagination, handlePageChange } =
-    useReports();
+  const { 
+    filteredReports, 
+    status, 
+    loadReports, 
+    pagination, 
+    handlePageChange,
+    addReport 
+  } = useReports();
+  
   const [viewMode, setViewMode] = useState<"grid" | "details">("grid");
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
   const onDownload = (name: string) => {
     notify(`Preparing download: ${name}`, "success");
@@ -26,6 +53,18 @@ export function ReportList() {
   const onView = (name: string) => {
     notify(`Opening file: ${name}`, "info");
   };
+
+  const handleUploadSuccess = useCallback((file: File) => {
+    const newReport = mapFileToReport(file);
+ 
+    if (addReport) {
+      addReport(newReport);
+    } else {
+      loadReports(); 
+    }
+    
+    notify(`Report "${file.name}" added successfully`, "success");
+  }, [addReport, loadReports, notify]);
 
   useEffect(() => {
     loadReports();
@@ -67,27 +106,41 @@ export function ReportList() {
           Diagnostic Archives ({pagination.totalItems})
         </h3>
 
-        <div className="flex bg-zinc-100 dark:bg-zinc-800 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700">
-          <button
-            onClick={() => setViewMode("grid")}
-            className={`p-1.5 rounded-lg transition-all ${
-              viewMode === "grid"
-                ? "bg-white dark:bg-zinc-700 shadow-sm text-blue-600"
-                : "text-zinc-400"
-            }`}
+        <div className="flex items-center gap-3">
+          {/* Botón de Acción Principal */}
+          <ButtonDefault 
+            onClick={() => setIsUploadModalOpen(true)}
+            className="flex items-center gap-2"
           >
-            <LayoutGrid size={16} strokeWidth={2.5} />
-          </button>
-          <button
-            onClick={() => setViewMode("details")}
-            className={`p-1.5 rounded-lg transition-all ${
-              viewMode === "details"
-                ? "bg-white dark:bg-zinc-700 shadow-sm text-blue-600"
-                : "text-zinc-400"
-            }`}
-          >
-            <List size={16} strokeWidth={2.5} />
-          </button>
+            <Plus size={16} />
+            <span className="hidden md:inline">New Report</span>
+          </ButtonDefault>
+
+          {/* Selectores de Vista */}
+          <div className="flex bg-zinc-100 dark:bg-zinc-800 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-1.5 rounded-lg transition-all ${
+                viewMode === "grid"
+                  ? "bg-white dark:bg-zinc-700 shadow-sm text-blue-600"
+                  : "text-zinc-400"
+              }`}
+              aria-label="Grid view"
+            >
+              <LayoutGrid size={16} strokeWidth={2.5} />
+            </button>
+            <button
+              onClick={() => setViewMode("details")}
+              className={`p-1.5 rounded-lg transition-all ${
+                viewMode === "details"
+                  ? "bg-white dark:bg-zinc-700 shadow-sm text-blue-600"
+                  : "text-zinc-400"
+              }`}
+              aria-label="List view"
+            >
+              <List size={16} strokeWidth={2.5} />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -129,6 +182,7 @@ export function ReportList() {
                       <button
                         onClick={() => onDownload(report.name)}
                         className="p-2 rounded-xl border border-zinc-100 dark:border-zinc-800 text-zinc-400 hover:text-blue-600 transition-colors"
+                        aria-label={`Download ${report.name}`}
                       >
                         <Download size={14} />
                       </button>
@@ -170,6 +224,7 @@ export function ReportList() {
                         <button
                           onClick={() => onDownload(report.name)}
                           className="p-2 text-zinc-400 hover:text-blue-600 transition-colors"
+                          aria-label={`Download ${report.name}`}
                         >
                           <Download size={14} />
                         </button>
@@ -191,6 +246,13 @@ export function ReportList() {
           </div>
         </>
       )}
+
+      {/* Integración del Componente de Upload */}
+      <DialogUpload 
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+        onUploadSuccess={handleUploadSuccess}
+      />
     </div>
   );
 }
