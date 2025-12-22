@@ -1,17 +1,21 @@
 "use client";
+import { ErrorBoundary } from "@/components/base";
 import {
+  BuggyError,
   DashboardSearch,
   ReportList,
   StatsCardsGrid,
 } from "@/components/composite";
 import { ReportProvider } from "@/context";
 import { useDashboardCardStats } from "@/hooks";
+import { ErrorTrigger } from "@/utils";
 
 export default function DashboardPage() {
   const { stats } = useDashboardCardStats();
 
   return (
     <ReportProvider>
+  
       <div className="space-y-8 max-w-7xl mx-auto animate-in fade-in duration-700">
         <header className="flex flex-col gap-1">
           <h2 className="text-3xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">
@@ -22,14 +26,17 @@ export default function DashboardPage() {
           </p>
         </header>
 
-        <StatsCardsGrid data={stats} />
+        <ErrorBoundary fallback={<BuggyError />}>
+            <ErrorTrigger random={3} />
+          <StatsCardsGrid data={stats} />
 
-        <div className="w-full">
-          <DashboardSearch />
-        </div>
-        <section className="relative min-h-400px">
-          <ReportList />
-        </section>
+          <div className="w-full">
+            <DashboardSearch />
+          </div>
+          <section className="relative min-h-400px">
+            <ReportList />
+          </section>
+        </ErrorBoundary>
       </div>
     </ReportProvider>
   );
