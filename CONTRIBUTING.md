@@ -2,6 +2,20 @@
 
 Welcome to contributing to the **DALOG Diagnostic Report Manager** project. This guide establishes standards and processes to maintain code quality, foster effective collaborations, and ensure the project evolves sustainably. As a technical test, the focus is on frontend development best practices.
 
+## Challenge Requirements
+
+This project implements the following functional requirements:
+1. **Report Listing (GET Simulation)**: Renders a list of reports efficiently with real-time search by name, using the provided JSON structure as initial data.
+2. **Upload Form (POST Simulation)**: Drag-and-drop file upload with 2-second delay, progress indicators (20%, 55%, 90%, 100%), and states for Loading, Success, Error.
+3. **Accessibility (A11y)**: Keyboard navigation (e.g., Escape key), ARIA labels, and screen reader support.
+
+Implemented Patterns:
+- Partial Strategy Pattern for file type assignment based on extension (PDF -> Thermal, CSV -> Vibration).
+- Context API with useReducer for state management.
+- Atomic Design for components.
+
+Note: Advanced features like Web Worker and Error Boundaries are not implemented.
+
 ## 📋 Prerequisites
 - Familiarity with **Next.js**, **TypeScript**, **Tailwind CSS**, and **React**.
 - Knowledge of **Atomic Design** and component patterns.
@@ -11,8 +25,14 @@ Welcome to contributing to the **DALOG Diagnostic Report Manager** project. This
 ## 🚀 Development Setup
 1. **Clone and configure** (see [README.md](README.md) for details).
 2. **Install dependencies**: `pnpm install`.
-3. **Run linting**: `pnpm lint` before commits.
-4. **Test changes**: Run `pnpm dev` and verify in browser.
+3. **Initialize Husky**: Run `pnpm run prepare` to set up Git hooks (executes automatically on install).
+4. **Run linting**: `pnpm lint` before commits (also runs via Husky pre-commit hook).
+5. **Test changes**: Run `pnpm dev` and verify in browser.
+
+### Husky Git Hooks
+Husky is configured to run checks before commits:
+- **pre-commit**: Executes `pnpm tsc --noEmit` (TypeScript type checking) and `pnpm lint` (ESLint).
+Ensure these pass before pushing; they run automatically on commit.
 
 ## 🌿 Branching Strategy
 - **main**: Production branch, only merges from `develop` via PR.
@@ -36,9 +56,9 @@ Welcome to contributing to the **DALOG Diagnostic Report Manager** project. This
 - **Accessibility**: Implement ARIA labels and keyboard navigation.
 
 ## 🧪 Testing
-- Add tests for new functionalities (unit tests with Jest + RTL).
-- Run tests before PR: `pnpm test` (configure if not exists).
-- Cover edge cases: network errors, loading states, validations.
+- Testing framework selected: Jest + React Testing Library.
+- Not yet configured; run `pnpm test` placeholder.
+- Cover edge cases: network errors, loading states, validations when implemented.
 
 ## 🔄 Pull Requests (PRs)
 - **Title**: Follow Conventional Commits (e.g., `feat(ui): add search component`).

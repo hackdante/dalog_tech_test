@@ -1,129 +1,128 @@
-# DALOG Diagnostic Report Manager (v.0.0.4)
+# DALOG Diagnostic Report Manager
 
 ## Description
 
-This project is an enterprise-grade dashboard for managing technical diagnostic reports, developed as part of a frontend technical test. The application allows authenticated users to view, search, and manage diagnostic reports efficiently and securely. It is built with modern technologies to ensure scalability, maintainability, and optimal user experience.
+This project is a Diagnostic Report Manager built as part of a technical challenge to demonstrate enterprise-ready frontend architecture. The application simulates API interactions for managing diagnostic reports, focusing on performance, maintainability, scalability, reliability, and accessibility. It includes features for listing reports with real-time search, uploading files with drag-and-drop support, and robust error handling.
+
+The initial report data used for simulation is:
+```json
+[
+  { "id": 1, "name": "vibration_analysis_01.pdf", "size": "2.4MB", "type": "Vibration", "date": "2023-10-01" },
+  { "id": 2, "name": "motor_thermal_B.csv", "size": "1.1MB", "type": "Thermal", "date": "2023-10-02" }
+]
+```
 
 ### Key Features
-- **Secure Authentication**: Login flow with simulated credential validation and realistic latency handling.
-- **Report Management**: Report visualization in list format, with search and pagination functionalities.
-- **Modular Interface**: Architecture based on Atomic Design for reusable components.
-- **Optimized Performance**: Use of Next.js Server Components and efficient state management.
-- **Accessibility and UX**: Responsive design with Tailwind CSS, focused on usability.
+- **Report Listing**: Efficient rendering of reports with real-time search filtering by name, using simulated data.
+- **File Upload**: Drag-and-drop upload simulation with 2-second delay, progress indicators (20%, 55%, 90%, 100%), and clear states for Loading, Success, and Error.
+- **Accessibility**: Keyboard navigation (e.g., Escape to close dialogs), ARIA labels, and screen reader support.
+- **Performance**: Optimized state management with Context API to prevent unnecessary re-renders; Next.js provides code splitting and lazy loading.
+- **Patterns**: Partial Strategy Pattern for file type assignment (PDF -> Thermal, CSV -> Vibration).
 
-## 🛠️ Tech Stack & Standards
+## 🛠️ Tech Stack
 
-- **Framework**: Next.js 16.1.0 (App Router) + React 19.2.3 (with React Compiler enabled for automatic optimizations).
+- **Framework**: Next.js 16.1.0 (App Router) with React 19.2.3 (Hooks and TypeScript).
+- **State Management**: Context API with useReducer for scalable state management.
+- **Component Library**: Custom components styled with Tailwind CSS.
+- **Performance**: Next.js built-in code splitting and lazy loading.
+- **Testing**: Planned with Jest and React Testing Library (not yet configured).
 - **Language**: TypeScript 5.x for type safety.
-- **Styling**: Tailwind CSS 4.x for a consistent and efficient design system.
-- **Icons**: Lucide React for scalable iconography.
-- **Linting**: ESLint 9.x configured for Next.js.
-- **Build Tool**: Next.js integrated with PostCSS and Tailwind.
-- **Versioning**: Conventional Commits (`type(scope): description v.x.x.x`).
-- **Deployment**: Optimized for Vercel (Edge Runtime compatible).
+- **Build Tool**: Next.js with Vite.
+- **Other**: ESLint for code quality, Husky for pre-commit hooks.
 
-### Architecture
+## Architecture
 
-The project follows a modular architecture inspired by **Atomic Design**:
-- **Atoms (Base Components)**: Basic components like buttons, inputs, loaders (located in `components/base`).
-- **Organisms (Composite Components)**: Complex components like login forms, headers, report lists (in `components/composite`).
-- **Contexts**: Global state management for authentication (`context/auth`) and reports (`context/reports`).
-- **Custom Hooks**: Reusable logic for authentication, fetching, and reports (in `hooks`).
-- **Services**: Abstraction layer for API calls (in `services`).
-- **Interfaces**: TypeScript definitions for data types (in `interfaces`).
-- **Utils**: General utilities like simulated delays (in `utils`).
+The application follows a modular architecture inspired by Atomic Design and separation of concerns:
 
-This structure promotes separation of concerns, facilitating maintenance and scalability.
+- **Components**: Divided into `base` (atoms) and `composite` (organisms) for reusability.
+- **Contexts**: Global state for authentication, reports, and UI.
+- **Hooks**: Custom hooks for logic abstraction (e.g., useReports, useAuth).
+- **Services**: Simulation of API calls with mocking.
+- **Interfaces**: TypeScript definitions for data structures.
+- **Utils**: Utilities like delay simulation for uploads.
+
+This design ensures maintainability, scalability, and efficient rendering.
 
 ### Project Structure
 ```
 dalog-tech-test/
-├── components/           # UI Components
-│   ├── base/            # Atoms (buttons, inputs, etc.)
-│   └── composite/       # Organisms (login, headers, etc.)
-├── context/             # React Contexts for global state
+├── components/
+│   ├── base/            # Basic components (buttons, inputs, etc.)
+│   └── composite/       # Complex components (upload dialog, report list, etc.)
+├── context/             # React Contexts for state management
 ├── hooks/               # Custom hooks
-├── interfaces/          # TypeScript types
-├── mocks/               # Mock data for development
-├── public/              # Static assets
-├── services/            # Services for APIs
+├── interfaces/          # TypeScript definitions
+├── mocks/               # Mock data for API simulation
+├── services/            # API service abstractions
 ├── src/app/             # Next.js pages and layouts
-│   ├── (private)/       # Protected routes (dashboard)
-│   └── (public)/        # Public routes (login)
 ├── utils/               # General utilities
-├── package.json         # Dependencies and scripts
-├── tsconfig.json        # TypeScript configuration
-├── next.config.ts       # Next.js configuration
-├── tailwind.config.js   # Tailwind configuration
-└── eslint.config.mjs    # ESLint configuration
+└── ...                  # Config files
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Node.js**: Version 18.x or higher (20.x recommended).
-- **pnpm**: Package manager (install with `npm install -g pnpm`).
-- **Git**: For version control.
+- Node.js 18.x or higher.
+- pnpm as package manager.
+- Git for version control.
 
 ### Installation
-1. **Clone the repository**:
+1. Clone the repository:
    ```bash
-   git clone https://github.com/hackdante/dalog_tech_test.git
+   git clone <repository-url>
    cd dalog-tech-test
    ```
-
-2. **Install dependencies**:
+2. Install dependencies:
    ```bash
    pnpm install
    ```
-
-3. **Configure environment variables** (if applicable, create `.env.local`):
-   - No variables are required currently, but for future real API integrations, add `NEXT_PUBLIC_API_URL`.
-
-4. **Run in development**:
+3. Run the development server:
    ```bash
    pnpm dev
    ```
-   The application will be available at `http://localhost:3000`.
+   The app will be available at `http://localhost:3000`.
 
 ### Available Scripts
-- `pnpm dev`: Starts the development server.
-- `pnpm build`: Builds the application for production.
-- `pnpm start`: Starts the production server (after build).
-- `pnpm lint`: Runs ESLint to check code.
+- `pnpm dev`: Start development server.
+- `pnpm build`: Build for production.
+- `pnpm start`: Start production server.
+- `pnpm lint`: Run ESLint.
+- `pnpm test`: Run tests (Jest + React Testing Library).
 
-## 👤 Test Users
+## Architectural Decisions
 
-To access the application, use the following test credentials:
+- **State Management**: Context API with useReducer chosen for its simplicity and effectiveness in preventing unnecessary re-renders through stable dependencies.
+- **Component Patterns**: Atomic Design implemented for modularity and reusability.
+- **Performance**: Leveraged Next.js features for code splitting; state optimizations ensure efficient rendering.
+- **Testing**: Framework selected (Jest + RTL), but not yet implemented.
+- **Accessibility**: Integrated ARIA attributes and keyboard support as per WCAG guidelines.
+- **Security**: React's built-in protections used; inputs sanitized.
+- **Error Handling**: User feedback implemented for upload errors; Error Boundaries not yet added.
 
-- **Admin**: Email: `admin@dalog.com`, Password: `admin123`, Role: Admin
-- **Operator**: Email: `operator@dalog.com`, Password: `operator123`, Role: Operator
-- **Guest**: Email: `guest@dalog.com`, Password: `guest123`, Role: Guest
+## Technical Discussion: Scaling File Upload for Large Files (>1GB)
 
-These users simulate different access levels for testing authentication and role-based features.
-Currently, no test suite is configured. As a senior developer, I recommend integrating:
-- **Jest** + **React Testing Library** for component unit tests.
-- **Cypress** or **Playwright** for end-to-end testing.
-- Run `pnpm test` (once configured).
-
-For adding basic tests:
-1. Install dependencies: `pnpm add -D jest @testing-library/react @testing-library/jest-dom`.
-2. Configure Jest in `jest.config.js`.
-3. Create tests in `__tests__/` or alongside components.
+To scale the file upload system for reports exceeding 1GB:
+- **Chunked Uploads**: Break files into smaller chunks (e.g., 1MB) and upload sequentially or in parallel, reassembling on the server.
+- **Resumable Uploads**: Use libraries like Tus.js to resume interrupted uploads, tracking progress via byte-level tracking.
+- **Web Workers**: Offload file processing to Web Workers to keep UI responsive.
+- **Backend Considerations**: Implement server-side streaming or multipart uploads; use cloud storage (e.g., AWS S3) with presigned URLs.
+- **Client Optimizations**: Compress files before upload, validate on client-side, and provide real-time progress with byte-level tracking.
+- **Security**: Enforce file type validation, size limits, and virus scanning.
+This approach ensures reliability and performance for large-scale operations.
 
 ## 🚀 Deployment
-The application is optimized for Vercel:
-1. Connect the repository on Vercel.
-2. Configure build settings: `pnpm build` and `pnpm start`.
-3. Automatic deploy on pushes to `main` or `develop`.
 
-For other providers (Netlify, etc.), adjust `next.config.ts` if necessary.
+The application is configured for continuous deployment on Vercel. The live version is available at [dalog-tech-test.vercel.app](https://dalog-tech-test.vercel.app).
+
+To deploy:
+1. Connect the repository to Vercel.
+2. Configure build settings: `pnpm build` and `pnpm start`.
+3. Automatic deployments occur on pushes to `main` or `develop`.
 
 ## 🤝 Contributing
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 📄 License
-This project is private and part of a technical test. Do not distribute without authorization.
 
-## 📞 Contact
-For questions, contact the development team.
+Private project for technical test.

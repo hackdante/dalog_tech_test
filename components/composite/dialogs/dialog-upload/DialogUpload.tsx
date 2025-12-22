@@ -5,6 +5,7 @@ import { X, Upload, CheckCircle2 } from "lucide-react";
 import { ButtonDefault } from "@/components/base";
 import { delayTime } from "@/utils";
 import { DialogTypes, DialogUploadUI } from "./interface";
+import { useUI } from "@/hooks";
 
 export const DialogUpload = ({
   isOpen,
@@ -15,6 +16,7 @@ export const DialogUpload = ({
   const [file, setFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<DialogTypes>("idle");
   const [progress, setProgress] = useState<number>(0);
+  const { notify } = useUI();
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent): void => {
@@ -83,7 +85,11 @@ export const DialogUpload = ({
       onUploadSuccess(file);
       handleInternalClose();
     } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Sorry, you can upload again";
+
       setUploadStatus("error");
+      notify(errorMessage, "error");
     }
   };
 
@@ -178,7 +184,6 @@ export const DialogUpload = ({
             </div>
           )}
 
-          {/* Actions */}
           <div className="mt-6 flex gap-3 justify-end">
             <ButtonDefault
               variant="secondary"

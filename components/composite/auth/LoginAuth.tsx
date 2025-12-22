@@ -9,7 +9,7 @@ import {
   LogoCompany,
 } from "@/components/base";
 import { authService } from "@/services";
-import { useAuth, useUI } from "@/hooks"; // Importamos useUI
+import { useAuth, useUI } from "@/hooks"; 
 
 export function LoginAuth() {
   const [email, setEmail] = useState("");
@@ -17,7 +17,7 @@ export function LoginAuth() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useAuth();
-  const { notify } = useUI(); // <--- Hook global de notificaciones
+  const { notify } = useUI(); 
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -31,8 +31,9 @@ export function LoginAuth() {
       notify("Welcome to DALOG Manager", "success");
       
       router.push("/dashboard");
-    } catch (err: any) {
-      notify(err.message || "Authentication failed", "error");
+    } catch (err) { 
+      const errorMessage = err instanceof Error ? err.message : "Authentication failed";
+      notify(errorMessage, "error");
     } finally {
       setIsLoading(false);
     }
@@ -41,7 +42,6 @@ export function LoginAuth() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-blue-600 p-4">
       <CardDefault className="w-full max-w-md shadow-2xl">
-        {/* Centrado del Logo */}
         <div className="flex flex-col items-center mb-8">
           <LogoCompany description={"Monitoring experts"} theme={"theme/light"} />
         </div>

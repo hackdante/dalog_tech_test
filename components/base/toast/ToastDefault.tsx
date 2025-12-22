@@ -1,11 +1,10 @@
-// components/base/toast/ToastDefault.tsx
 "use client";
 
-import { FC, useEffect } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { CheckCircle, AlertCircle, Info, X } from "lucide-react";
 import { ToastProps, ToastType } from "./interface";
 
-const iconMap: Record<ToastType, any> = {
+const iconMap: Record<ToastType, ReactNode> = {
   success: <CheckCircle className="text-emerald-500" size={18} />,
   error: <AlertCircle className="text-red-500" size={18} />,
   info: <Info className="text-blue-500" size={18} />,
@@ -18,12 +17,11 @@ export const ToastDefault: FC<ToastProps> = ({
   isVisible,
   onClose,
 }) => {
-  useEffect(() => {
-    if (isVisible) {
-      const timer = setTimeout(onClose, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible, onClose]);
+useEffect(() => {
+  if (!isVisible) return; 
+  const timer = setTimeout(onClose, 3000);
+  return () => clearTimeout(timer);
+}, [isVisible, onClose]);
 
   if (!isVisible) return null;
 

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image"; 
 import { useAuth, useUI } from "@/hooks"; 
 import { LogOut } from "lucide-react";    
 
@@ -25,10 +26,14 @@ export function ProfileCard() {
 
       <div className="h-9 w-9 rounded-full bg-zinc-200 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 overflow-hidden flex items-center justify-center relative group">
         {user?.avatar ? (
-          <img
+      
+          <Image
             src={user.avatar}
             alt="User profile"
-            className="w-full h-full object-cover"
+            fill 
+            className="object-cover"
+            sizes="36px" 
+            priority
           />
         ) : (
           <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase">
