@@ -6,18 +6,14 @@ import { useEffect } from "react";
 import { GuardAuthUI } from "./interface";
 
 export const GuardAuth = ({ children }: GuardAuthUI) => {
-  const { user, isHydrated } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (isHydrated && !user) {
+    if (!user) {
       router.push("/login");
     }
-  }, [user, isHydrated, router]);
-
-  if (!isHydrated) {
-    return null;
-  }
+  }, [user, router]);
 
   if (!user) {
     return null;

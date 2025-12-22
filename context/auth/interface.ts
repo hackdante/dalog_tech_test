@@ -4,5 +4,4 @@ export interface AuthContextTypeUI {
   isAuthenticated: boolean;
   login: (userData: UserUI) => void;
   logout: () => void;
-  isHydrated: boolean;
 }
