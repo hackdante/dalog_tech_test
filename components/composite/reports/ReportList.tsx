@@ -73,17 +73,17 @@ export function ReportList() {
   const getTypeConfig = (type: ReportUI["type"]) => {
     const configs = {
       Vibration: {
-        icon: <Activity size={18} />,
+        icon: <Activity size={20} />,
         color: "text-amber-500",
         bg: "bg-amber-50 dark:bg-amber-950/30",
       },
       Thermal: {
-        icon: <Thermometer size={18} />,
+        icon: <Thermometer size={20} />,
         color: "text-red-500",
         bg: "bg-red-50 dark:bg-red-950/30",
       },
       Other: {
-        icon: <FileText size={18} />,
+        icon: <FileText size={20} />,
         color: "text-blue-500",
         bg: "bg-blue-50 dark:bg-blue-950/30",
       },
@@ -102,12 +102,11 @@ export function ReportList() {
   return (
     <div className="w-full space-y-6">
       <div className="flex justify-between items-center px-2">
-        <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em]">
+        <h3 className="text-[14px] font-black text-zinc-800 uppercase tracking-widest">
           Diagnostic Archives ({pagination.totalItems})
         </h3>
 
         <div className="flex items-center gap-3">
-          {/* Botón de Acción Principal */}
           <ButtonDefault 
             onClick={() => setIsUploadModalOpen(true)}
             className="flex items-center gap-2"
@@ -116,7 +115,6 @@ export function ReportList() {
             <span className="hidden md:inline">New Report</span>
           </ButtonDefault>
 
-          {/* Selectores de Vista */}
           <div className="flex bg-zinc-100 dark:bg-zinc-800 p-1 rounded-xl border border-zinc-200 dark:border-zinc-700">
             <button
               onClick={() => setViewMode("grid")}
@@ -138,7 +136,7 @@ export function ReportList() {
               }`}
               aria-label="List view"
             >
-              <List size={16} strokeWidth={2.5} />
+              <List size={20} strokeWidth={2.5} />
             </button>
           </div>
         </div>
@@ -165,11 +163,11 @@ export function ReportList() {
                       >
                         {config.icon}
                       </div>
-                      <span className="text-[9px] font-bold px-2 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-500 uppercase">
+                      <span className="text-[15px] font-bold px-2 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-500 uppercase">
                         {report.size}
                       </span>
                     </div>
-                    <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 truncate mb-4">
+                    <h4 className="text-[18px] font-bold text-zinc-800 dark:text-zinc-100 truncate mb-4">
                       {report.name}
                     </h4>
                     <div className="flex gap-2">
@@ -184,7 +182,7 @@ export function ReportList() {
                         className="p-2 rounded-xl border border-zinc-100 dark:border-zinc-800 text-zinc-400 hover:text-blue-600 transition-colors"
                         aria-label={`Download ${report.name}`}
                       >
-                        <Download size={14} />
+                        <Download size={18} />
                       </button>
                     </div>
                   </div>
